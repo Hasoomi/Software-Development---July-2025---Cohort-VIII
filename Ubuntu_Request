@@ -1,0 +1,51 @@
+import os
+import requests
+from urllib.parse import urlparse
+from datetime import datetime
+
+def fetch_image():
+    print("🌍 Ubuntu Image Fetcher")
+    print('"I am because we are" — Let’s fetch and share together.\n')
+
+    # Step 1: Ask user for URL
+    url = input("Enter an image URL: ").strip()
+    if not url:
+        print("⚠️ No URL provided. Please try again.")
+        return
+
+    # Step 2: Create 'Fetched_Images' directory if not exists
+    folder = "Fetched_Images"
+    os.makedirs(folder, exist_ok=True)
+
+    # Step 3: Extract filename from URL or generate one
+    parsed_url = urlparse(url)
+    filename = os.path.basename(parsed_url.path)
+    if not filename:
+        filename = f"image_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jpg"
+
+    file_path = os.path.join(folder, filename)
+
+    # Step 4: Fetch the image
+    try:
+        print("📡 Connecting to the internet community...")
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()  # Check for HTTP errors
+
+        # Step 5: Save image in binary mode
+        with open(file_path, "wb") as f:
+            f.write(response.content)
+        print(f"✅ Image saved successfully as: {file_path}")
+
+    except requests.exceptions.MissingSchema:
+        print("❌ Invalid URL. Please include http:// or https://")
+    except requests.exceptions.ConnectionError:
+        print("🌐 Connection error. Please check your internet connection.")
+    except requests.exceptions.Timeout:
+        print("⏱️ Request timed out. Try again later.")
+    except requests.exceptions.HTTPError as e:
+        print(f"🚫 HTTP Error: {e}")
+    except Exception as e:
+        print(f"⚠️ Unexpected error: {e}")
+
+if __name__ == "__main__":
+    fetch_image()

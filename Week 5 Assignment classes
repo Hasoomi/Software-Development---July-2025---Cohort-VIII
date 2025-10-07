@@ -1,0 +1,64 @@
+// Assignment one
+
+# Parent Class
+class Smartphone:
+    def __init__(self, brand, model, battery):
+        self.brand = brand
+        self.model = model
+        self.battery = battery  # in percentage
+    
+    def call(self, number):
+        print(f"{self.brand} {self.model} is calling {number}...")
+    
+    def charge(self, amount):
+        self.battery += amount
+        if self.battery > 100:
+            self.battery = 100
+        print(f"{self.brand} {self.model} charged to {self.battery}%")
+
+# Child Class (Inheritance)
+class Smartwatch(Smartphone):
+    def __init__(self, brand, model, battery, heart_rate):
+        super().__init__(brand, model, battery)
+        self.heart_rate = heart_rate
+
+    def measure_heart_rate(self):
+        print(f"{self.brand} {self.model} measuring heart rate: {self.heart_rate} bpm 💓")
+
+# Creating Objects
+phone1 = Smartphone("Samsung", "Galaxy S24", 50)
+watch1 = Smartwatch("Apple", "Watch 9", 80, 72)
+
+# Using Methods
+phone1.call("+252612345678")
+phone1.charge(30)
+
+watch1.measure_heart_rate()
+watch1.charge(10)
+
+
+// Assignment two
+class Vehicle:
+    def move(self):
+        pass  # base class has no implementation
+
+class Car(Vehicle):
+    def move(self):
+        print("🚗 The car is driving on the road.")
+
+class Plane(Vehicle):
+    def move(self):
+        print("✈️ The plane is flying in the sky.")
+
+class Boat(Vehicle):
+    def move(self):
+        print("⛵ The boat is sailing on the water.")
+
+# Create objects
+vehicles = [Car(), Plane(), Boat()]
+
+# Polymorphism in action
+for v in vehicles:
+    v.move()
+
+
